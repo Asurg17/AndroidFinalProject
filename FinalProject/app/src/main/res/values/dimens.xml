@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="avatar_image_size">170dp</dimen>
+    <dimen name="avatar_image_top_margin">64dp</dimen>
+    <dimen name="nickname_top_margin">32dp</dimen>
+    <dimen name="password_top_margin">8dp</dimen>
+    <dimen name="sign_in_button_top_margin">16dp</dimen>
+    <dimen name="suggestion_text_size">16sp</dimen>
+    <dimen name="sign_up_button_bottom_margin">32dp</dimen>
+    <dimen name="horizontal_padding">40dp</dimen>
+    <dimen name="vertical_padding">5dp</dimen>
+    <dimen name="border_radius">20dp</dimen>
+    <dimen name="border_width">1dp</dimen>
+    <dimen name="text_size">18sp</dimen>
+    <dimen name="stroke_width">2dp</dimen>
+    <dimen name="profession_top_margin">8dp</dimen>
+    <dimen name="edit_text_size">250dp</dimen>
+    <dimen name="sign_up_button_top_margin">64dp</dimen>
+</resources>

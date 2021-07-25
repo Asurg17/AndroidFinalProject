@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FinalProject</string>
+    <string name="nickname_hint">Enter your nickname</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="sing_up">SIGN UP</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="suggestion_text">Not registered?</string>
+    <string name="avatar_image">avatar_image</string>
+    <string name="profession_hint_text">What I do</string>
 </resources>

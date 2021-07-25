@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".RegistrationPage">
 
     <ImageView
         android:id="@+id/avatar_image"
@@ -20,7 +19,7 @@
 
     <EditText
         android:id="@+id/nickname"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/edit_text_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/nickname_top_margin"
         android:inputType="textPersonName"
@@ -36,7 +35,7 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/edit_text_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/password_top_margin"
         android:inputType="textPassword"
@@ -48,46 +47,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nickname"
-        android:autofillHints="password"/>
+        android:autofillHints="password" />
 
-    <Button
-        android:id="@+id/sign_in"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/profession"
+        android:layout_width="@dimen/edit_text_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sign_in_button_top_margin"
-        android:text="@string/sign_in"
-        android:backgroundTint="@color/blue"
-        android:textSize="@dimen/text_size"
-        android:fontFamily="sans-serif"
+        android:autofillHints="profession"
+        android:background="@drawable/rounded_border_edit_text"
+        android:gravity="center_horizontal"
+        android:hint="@string/profession_hint_text"
+        android:paddingHorizontal="@dimen/horizontal_padding"
+        android:paddingVertical="@dimen/vertical_padding"
+        android:layout_marginTop="@dimen/profession_top_margin"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
-
-    <TextView
-        android:id="@+id/suggestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/suggestion_text_size"
-        android:text="@string/suggestion_text"
-        app:layout_constraintBottom_toTopOf="@+id/sign_up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/sign_up_button_bottom_margin"
+        android:layout_marginTop="@dimen/sign_up_button_top_margin"
+        android:backgroundTint="@color/blue"
+        android:fontFamily="sans-serif"
         android:text="@string/sing_up"
         android:textSize="@dimen/text_size"
-        android:textColor="@color/grey"
-        android:fontFamily="sans-serif"
-        style="?attr/materialButtonOutlinedStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:strokeWidth="@dimen/stroke_width"
-        app:strokeColor="@color/grey"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profession" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
