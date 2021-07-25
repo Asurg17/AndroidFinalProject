@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "157854265342",
+    "project_id": "finalproject-1afd6",
+    "storage_bucket": "finalproject-1afd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157854265342:android:9859d736df2f0075db5aaf",
+        "android_client_info": {
+          "package_name": "ge.asurguladze.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157854265342-c7rin3p33kneu2j03l04dat1h4ep7hou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN5h-KYVCUF1JbYjkQvyaye0Z5SlCWhI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157854265342-c7rin3p33kneu2j03l04dat1h4ep7hou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
