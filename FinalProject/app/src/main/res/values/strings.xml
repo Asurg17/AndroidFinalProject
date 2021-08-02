@@ -7,4 +7,33 @@
     <string name="suggestion_text">Not registered?</string>
     <string name="avatar_image">avatar_image</string>
     <string name="profession_hint_text">What I do</string>
+    <string name="search_view_hint">Search</string>
+    <string name="content_desc">
+        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor !Hodor Hodor Hodor ?!
+        Hodor Hodor Hodor Hodor Hodor .
+        Hodor .Hodor Hodor Hodor Hodor .
+        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor !Hodor Hodor Hodor ?!
+        Hodor Hodor Hodor Hodor Hodor .
+        Hodor .Hodor Hodor Hodor Hodor .
+        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor !Hodor Hodor Hodor ?!
+        Hodor Hodor Hodor Hodor Hodor .
+        Hodor .Hodor Hodor Hodor Hodor .
+        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
+        Hodor Hodor !Hodor Hodor Hodor ?!
+        Hodor Hodor Hodor Hodor Hodor .
+        Hodor .Hodor Hodor Hodor Hodor .
+        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …</string>
+    <string name="todo">TODO</string>
+    <string name="home">home</string>
+    <string name="setting">setting</string>
+    <string name="plus_button">Plus Button</string>
+    <string name="home_button">Home Button</string>
+    <string name="settings_button">Settings Button</string>
 </resources>

@@ -9,11 +9,17 @@
     <dimen name="sign_up_button_bottom_margin">32dp</dimen>
     <dimen name="horizontal_padding">40dp</dimen>
     <dimen name="vertical_padding">5dp</dimen>
-    <dimen name="border_radius">20dp</dimen>
+    <dimen name="border_radius">50dp</dimen>
     <dimen name="border_width">1dp</dimen>
     <dimen name="text_size">18sp</dimen>
     <dimen name="stroke_width">2dp</dimen>
     <dimen name="profession_top_margin">8dp</dimen>
     <dimen name="edit_text_size">250dp</dimen>
     <dimen name="sign_up_button_top_margin">64dp</dimen>
+    <dimen name="search_view_horizontal_margin">20dp</dimen>
+    <dimen name="search_view_bottom_margin">20dp</dimen>
+    <dimen name="search_view_height">55dp</dimen>
+    <dimen name="app_bar_layout_height">180dp</dimen>
+    <dimen name="icon_size">30dp</dimen>
+    <dimen name="bottom_app_bar_icons_margin">70dp</dimen>
 </resources>
