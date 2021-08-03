@@ -26,28 +26,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Write a message to the database
-        val database = Firebase.database
-
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
         initializeViews()
         setListeners()
-
     }
 
     public override fun onStart() {
         super.onStart()
+
+        auth = Firebase.auth
+
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
+
         if(currentUser != null){
-//            reload();
-            var a = 2
+            goToMainPage()
         }
     }
 
     private fun initializeViews() {
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
         signIn = findViewById(R.id.sign_in)
         signUp = findViewById(R.id.sign_up)
 

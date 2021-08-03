@@ -36,4 +36,8 @@
     <string name="plus_button">Plus Button</string>
     <string name="home_button">Home Button</string>
     <string name="settings_button">Settings Button</string>
+    <string name="profile_image_button">Profile Image Button</string>
+    <string name="update">UPDATE</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="back_button">Back Button</string>
 </resources>

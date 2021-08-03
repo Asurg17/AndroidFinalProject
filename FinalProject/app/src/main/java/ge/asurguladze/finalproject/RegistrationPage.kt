@@ -29,16 +29,15 @@ class RegistrationPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration_page)
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
-//        Firebase.auth.signOut()
-
         initializeViews()
         setListeners()
     }
 
     private fun initializeViews() {
+
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
         signUp = findViewById(R.id.sign_up)
 
         nickname = findViewById(R.id.nickname)
@@ -82,7 +81,7 @@ class RegistrationPage : AppCompatActivity() {
 //                    val user = auth.currentUser
 
                     users.push().key?.let{
-                        users.child(it).setValue(
+                        users.child(nickname).setValue(
                             User(nickname, password, profession)
                         )
                     }

@@ -109,7 +109,8 @@
             android:backgroundTint="@color/white"
             android:layout_gravity="start"
             android:layout_marginHorizontal="@dimen/bottom_app_bar_icons_margin"
-            android:contentDescription="@string/home_button" />
+            android:contentDescription="@string/home_button"
+            app:tint="@drawable/icon_color" />
 
         <ImageButton
             android:id="@+id/settings"
@@ -119,7 +120,8 @@
             android:backgroundTint="@color/white"
             android:layout_gravity="end"
             android:layout_marginHorizontal="@dimen/bottom_app_bar_icons_margin"
-            android:contentDescription="@string/settings_button" />
+            android:contentDescription="@string/settings_button"
+            app:tint="@drawable/icon_color" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

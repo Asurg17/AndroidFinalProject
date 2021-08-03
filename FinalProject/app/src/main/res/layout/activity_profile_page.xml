@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfilePage">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_picture"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/profile_image_size"
+        android:layout_height="@dimen/profile_image_size"
+        android:layout_marginBottom="@dimen/profile_picture_bottom_margin"
+        android:src="@drawable/test"/>
+
+    <EditText
+        android:id="@+id/profile_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_page_edit_text_height"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/profile_page_edit_text_vertical_margin"
+        android:layout_marginHorizontal="@dimen/profile_page_edit_text_horizontal_margin"
+        android:background="@drawable/rounded_border_edit_text"
+        android:autofillHints="username"
+        android:inputType="text"
+        android:hint="@string/nickname_hint"/>
+
+    <EditText
+        android:id="@+id/profile_profession"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_page_edit_text_height"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/profile_page_edit_text_vertical_margin"
+        android:layout_marginHorizontal="@dimen/profile_page_edit_text_horizontal_margin"
+        android:background="@drawable/rounded_border_edit_text"
+        android:autofillHints="profession"
+        android:inputType="text"
+        android:hint="@string/profession_hint_text"/>
+
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="@dimen/profile_button_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="180dp"
+        android:text="@string/update"
+        android:backgroundTint="@color/blue"
+        android:textSize="@dimen/text_size"
+        android:fontFamily="sans-serif" />
+
+    <Button
+        android:id="@+id/sign_out"
+        android:layout_width="@dimen/profile_button_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:text="@string/sign_out"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/grey"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center"
+        app:strokeWidth="@dimen/stroke_width"
+        app:strokeColor="@color/grey"
+        style="?attr/materialButtonOutlinedStyle"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimaryVariant"
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_plus"
+        app:tint="@color/white"
+        android:contentDescription="@string/plus_button" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/white"
+        app:hideOnScroll="true"
+        app:fabAlignmentMode="center"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored">
+
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:src="@drawable/ic_home"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="start"
+            android:layout_marginHorizontal="@dimen/bottom_app_bar_icons_margin"
+            android:contentDescription="@string/home_button"
+            app:tint="@drawable/icon_color" />
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:src="@drawable/ic_settings"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="@dimen/bottom_app_bar_icons_margin"
+            android:contentDescription="@string/settings_button"
+            app:tint="@drawable/icon_color" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
