@@ -1,8 +1,6 @@
 package ge.asurguladze.finalproject.database
 
 import android.util.Log
-import android.widget.Toast
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -18,7 +16,7 @@ class MainInteractor(private val presenter: IMainPresenter){
         database = Firebase.database
         val bd = database.reference
 
-        bd.child(PATH).child("al").get().addOnSuccessListener {
+        bd.child(PATH).child(nickname).get().addOnSuccessListener {
 
             val userData = it.value as HashMap<*, *>
             val user = User(userData[NICKNAME].toString(), userData[PASSWORD].toString(), userData[PROFESSION].toString())
@@ -28,6 +26,20 @@ class MainInteractor(private val presenter: IMainPresenter){
         }.addOnFailureListener{
             Log.e(TAG, "Error getting data", it)
         }
+
+    }
+
+    fun changeUserInfo(nickname: String, newNickname:String, profession: String){
+        database = Firebase.database
+        val bd = database.reference
+
+//        bd.child(PATH).child(nickname).child(PROFESSION).setValue(profession)
+        bd.child(PATH).child(nickname).child(PROFESSION).setValue(profession)
+
+        presenter.onUserInfoChange(profession)
+    }
+
+    fun getAllUserInfo(){
 
     }
 

@@ -78,8 +78,6 @@ class RegistrationPage : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("B:A", "createUserWithEmail:success")
 
-//                    val user = auth.currentUser
-
                     users.push().key?.let{
                         users.child(nickname).setValue(
                             User(nickname, password, profession)
@@ -88,15 +86,12 @@ class RegistrationPage : AppCompatActivity() {
 
                     goToMainPage()
 
-//                    updateUI(user)
-
                 } else {
 
                     // If sign in fails, display a message to the user.
                     Log.w("B:A", "createUserWithEmail:failure", task.exception)
                     showToast("Authentication failed: " + task.exception?.message)
 
-//                    updateUI(null)
                 }
             }
     }

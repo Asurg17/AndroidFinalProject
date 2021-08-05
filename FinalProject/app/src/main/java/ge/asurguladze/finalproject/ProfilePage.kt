@@ -1,19 +1,18 @@
 package ge.asurguladze.finalproject
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.hdodenhof.circleimageview.CircleImageView
 import ge.asurguladze.finalproject.database.IMainView
-import ge.asurguladze.finalproject.database.MainInteractor
 import ge.asurguladze.finalproject.database.MainPresenter
 import ge.asurguladze.finalproject.models.User
 
@@ -33,6 +32,8 @@ class ProfilePage : AppCompatActivity(), IMainView {
     private lateinit var profileNickname: EditText
     private lateinit var profileProfession: EditText
 
+    private lateinit var nickname: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_page)
@@ -44,16 +45,17 @@ class ProfilePage : AppCompatActivity(), IMainView {
 
     private fun getValues() {
 
-        auth = Firebase.auth
-        val currentUser = auth.currentUser?.email.toString()
-        val nickname = currentUser.subSequence(0, currentUser.length-10).toString()
-
         presenter.getUserInfo(nickname)
 
         Log.d("user_our_user", nickname)
     }
 
     private fun initializeViews() {
+
+        auth = Firebase.auth
+        val currentUser = auth.currentUser?.email.toString()
+        nickname = currentUser.subSequence(0, currentUser.length-10).toString()
+
         presenter = MainPresenter(this)
         profileImage = findViewById(R.id.profile_picture)
         plusButton = findViewById(R.id.plus)
@@ -79,13 +81,19 @@ class ProfilePage : AppCompatActivity(), IMainView {
         }
 
         update.setOnClickListener {
-            Log.d("user_our_user", "arika")
+            updateUserInfo()
         }
 
         signOut.setOnClickListener {
             signOut()
         }
 
+    }
+
+    private fun updateUserInfo(){
+        if(profileProfession.length() != 0){
+            presenter.changeUserInfo(nickname, nickname, profileProfession.text.toString())
+        }
     }
 
     private fun signOut(){
@@ -113,5 +121,9 @@ class ProfilePage : AppCompatActivity(), IMainView {
     override fun showUserInfo(user: User) {
         profileNickname.setText(user.nickname)
         profileProfession.setText(user.profession)
+    }
+
+    override fun renderUserInfo(profession: String) {
+        profileProfession.setText(profession)
     }
 }

@@ -32,4 +32,11 @@
     <dimen name="back_button_size">40dp</dimen>
     <dimen name="search_page_app_bar_height">100dp</dimen>
     <dimen name="search_page_text_input_bottom_margin">22dp</dimen>
+    <dimen name="user_image_size">70dp</dimen>
+    <dimen name="user_text_view_size">35dp</dimen>
+    <dimen name="user_list_item_height">100dp</dimen>
+    <dimen name="user_image_left_margin">30dp</dimen>
+    <dimen name="user_text_view_left_margin">20dp</dimen>
+    <dimen name="user_name_text_size">18sp</dimen>
+    <dimen name="list_item_top_margin">10dp</dimen>
 </resources>

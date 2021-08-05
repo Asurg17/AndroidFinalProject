@@ -6,4 +6,6 @@ interface IMainView {
 
     fun showUserInfo(user: User)
 
+    fun renderUserInfo(profession: String)
+
 }
