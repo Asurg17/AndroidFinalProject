@@ -13,12 +13,12 @@ import ge.asurguladze.finalproject.adapters.UsersListAdapter
 import ge.asurguladze.finalproject.database.ISearchPageView
 import ge.asurguladze.finalproject.database.SearchPagePresenter
 import ge.asurguladze.finalproject.models.User
+import java.util.*
 
 
 class SearchPage : AppCompatActivity(), ISearchPageView {
 
     private lateinit var usersRv : RecyclerView
-    private lateinit var adapter : UsersListAdapter
 
     private lateinit var presenter: SearchPagePresenter
 
@@ -33,7 +33,7 @@ class SearchPage : AppCompatActivity(), ISearchPageView {
 
         initializeViews()
         setListeners()
-        getAllUsers()
+        renderUsers("")
     }
 
     private fun initializeViews() {
@@ -42,6 +42,8 @@ class SearchPage : AppCompatActivity(), ISearchPageView {
         searchText = findViewById(R.id.search_users)
 
         usersRv = findViewById(R.id.users)
+        allUsers = arrayListOf()
+        usersRv.adapter = UsersListAdapter(allUsers)
     }
 
     private fun setListeners() {
@@ -49,26 +51,44 @@ class SearchPage : AppCompatActivity(), ISearchPageView {
             goToMainPage()
         }
 
+        var timer: Timer? = Timer()
+
         searchText.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                timer?.cancel()
+            }
 
-                if(start-before+1 >= 3){
-                    renderUsers(searchText.text.toString())
-                }else{
-                    renderUsers("")
-                }
-
+            override fun afterTextChanged(s: Editable) {
+                timer = Timer()
+                timer!!.schedule(object : TimerTask() {
+                    override fun run() {
+                        runOnUiThread {
+                            renderUsers(searchText.text.toString())
+                        }
+                    }
+                }, 500)
             }
         })
-    }
 
-    private fun getAllUsers(){
-        presenter.getAllUserInfo()
+
+//        searchText.addTextChangedListener(object : TextWatcher {
+//
+//            override fun afterTextChanged(s: Editable) {}
+//
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+//
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//
+//                if(start-before+1 >= 3){
+//                    renderUsers(searchText.text.toString())
+//                }else{
+//                    renderUsers("")
+//                }
+//
+//            }
+//        })
     }
 
     private fun goToMainPage(){
@@ -78,42 +98,47 @@ class SearchPage : AppCompatActivity(), ISearchPageView {
 
     private fun renderUsers(userName: String){
 
-        adapter = if(userName.isNotEmpty()){
+        if(userName.length >= 3){
 
-            val filteredUsers = arrayListOf<User>()
+            val intent = Intent(this, ChatPage::class.java)
+            startActivity(intent)
 
-            for(curUser in allUsers){
-                if(curUser.nickname.toString().contains(userName)){
-                    filteredUsers.add(curUser)
-                }
-            }
-
-            if(filteredUsers.size==0){
-                showShortToast()
-            }
-
-            UsersListAdapter(filteredUsers)
-
+//            presenter.getSpecificUsers(userName)
         }else{
-
-            if(allUsers.size==0){
-                showShortToast()
-            }
-
-            UsersListAdapter(allUsers)
-
+            presenter.getAllUserInfo()
         }
-
-        usersRv.adapter = adapter
-    }
-
-    private fun showShortToast(){
-        Toast.makeText(this, "Sorry, no users were found!", Toast.LENGTH_SHORT).show()
     }
 
     // ISearchPageView functions
     override fun onAllUsersFetch(users: ArrayList<User>) {
-        allUsers = users
-        renderUsers("")
+        changeDataSet(users)
     }
+
+    override fun onAllSpecificUsersFetch(users: ArrayList<User>) {
+        changeDataSet(users)
+    }
+
+
+    private fun changeDataSet(users: ArrayList<User>){
+
+        var checker = false
+
+        allUsers.removeAll(allUsers)
+
+        for(curUser in users){
+            checker = true
+            allUsers.add(curUser)
+        }
+
+        if(!checker){
+            showNoUsersWereFound()
+        }
+
+        usersRv.adapter?.notifyDataSetChanged()
+    }
+
+    private fun showNoUsersWereFound(){
+        Toast.makeText(this, "Sorry, no users were found!", Toast.LENGTH_SHORT).show()
+    }
+
 }

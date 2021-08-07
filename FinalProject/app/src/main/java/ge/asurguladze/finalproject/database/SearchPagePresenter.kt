@@ -10,8 +10,16 @@ class SearchPagePresenter(private val view: ISearchPageView): ISearchPagePresent
         interactor.getAllUserInfo()
     }
 
+    fun getSpecificUsers(userName: String){
+        interactor.getSpecificUsers(userName)
+    }
+
 
     override fun onAllUserInfoFetch(users: ArrayList<User>) {
         view.onAllUsersFetch(users)
+    }
+
+    override fun onAllSpecificUserInfoFetch(users: ArrayList<User>) {
+        view.onAllSpecificUsersFetch(users)
     }
 }

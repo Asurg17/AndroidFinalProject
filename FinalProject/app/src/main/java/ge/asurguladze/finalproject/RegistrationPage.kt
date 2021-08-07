@@ -57,7 +57,11 @@ class RegistrationPage : AppCompatActivity() {
 
         if (checkIfAllValuesAreFilled()) {
 
-            createUser(nickname.text.toString(), password.text.toString(), profession.text.toString())
+            if(nickname.text.toString().contains(" ")){
+                showToast("You can't use spaces in nickname!")
+            }else{
+                createUser(nickname.text.toString(), password.text.toString(), profession.text.toString())
+            }
 
         }else{
 

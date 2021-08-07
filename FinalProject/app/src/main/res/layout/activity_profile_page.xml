@@ -26,8 +26,10 @@
         android:layout_marginHorizontal="@dimen/profile_page_edit_text_horizontal_margin"
         android:background="@drawable/rounded_border_edit_text"
         android:autofillHints="username"
-        android:inputType="text"
-        android:hint="@string/nickname_hint"/>
+        android:inputType="none"
+        android:enabled="false"
+        android:textColor="@color/black"
+        android:hint="@string/nickname_hint_short"/>
 
     <EditText
         android:id="@+id/profile_profession"
