@@ -1,21 +1,20 @@
 package ge.asurguladze.finalproject
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var signIn: Button
-    lateinit var signUp: Button
+    private lateinit var signIn: Button
+    private lateinit var signUp: Button
 
     lateinit var nickname: EditText
     lateinit var password: EditText

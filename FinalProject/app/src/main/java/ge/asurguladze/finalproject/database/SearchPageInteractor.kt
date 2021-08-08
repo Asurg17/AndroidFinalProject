@@ -1,10 +1,13 @@
 package ge.asurguladze.finalproject.database
 
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.component1
+import com.google.firebase.storage.ktx.storage
 import ge.asurguladze.finalproject.models.User
 
 class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
@@ -23,7 +26,7 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
         bd.child(PATH).get().addOnSuccessListener {
 
             val usersData = it.value as HashMap<*, *>
-            val users = arrayListOf<User>()
+            val users = mutableMapOf<String, User>()
 
             for ((key, value) in usersData) {
 
@@ -36,11 +39,11 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
                         userData[PROFESSION].toString()
                     )
 
-                    users.add(user)
+                    users[user.nickname.toString()]=user
                 }
             }
 
-            presenter.onAllUserInfoFetch(users)
+            getImages(users, true)
 
         }.addOnFailureListener{
             Log.e(TAG, "Error getting data", it)
@@ -60,7 +63,7 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
         bd.child(PATH).get().addOnSuccessListener {
 
             val usersData = it.value as HashMap<*, *>
-            val users = arrayListOf<User>()
+            val users = mutableMapOf<String, User>()
 
             for ((key, value) in usersData) {
 
@@ -73,15 +76,50 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
                         userData[PROFESSION].toString()
                     )
 
-                    users.add(user)
+                    users[user.nickname.toString()]=user
                 }
             }
 
-            presenter.onAllSpecificUserInfoFetch(users)
+            getImages(users, false)
 
         }.addOnFailureListener{
             Log.e(TAG, "Error getting data", it)
         }
+
+    }
+
+
+    private fun getImages(users: MutableMap<String, User>, allUsersFlag: Boolean){
+
+        val storageReference = Firebase.storage.reference
+
+        storageReference
+            .listAll()
+            .addOnSuccessListener { (items) ->
+
+                var size = 0
+
+                items.forEach { item ->
+                    item.getBytes(Long.MAX_VALUE).addOnSuccessListener {
+                        val bitmap =  BitmapFactory.decodeByteArray(it, 0, it.size)
+                        users[item.name]?.image = bitmap
+
+                        size+=1
+                        if(size == items.size){
+
+                            if(allUsersFlag){
+                                presenter.onAllUserInfoFetch(users)
+                            }else{
+                                presenter.onAllSpecificUserInfoFetch(users)
+                            }
+                        }
+
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Error getting images")
+            }
 
     }
 

@@ -1,5 +1,6 @@
 package ge.asurguladze.finalproject.database
 
+import android.net.Uri
 import ge.asurguladze.finalproject.models.User
 
 class MainPresenter(private val view: IMainView) : IMainPresenter{
@@ -14,12 +15,12 @@ class MainPresenter(private val view: IMainView) : IMainPresenter{
         interactor.changeUserInfo(nickname, newNickname, profession)
     }
 
-    override fun onUserInfoFetch(user: User) {
-        view.showUserInfo(user)
+    fun uploadUserImage(nickname: String, selectedImage: Uri){
+        interactor.uploadUserImage(nickname, selectedImage)
     }
 
-    override fun onUserInfoChange(profession: String) {
-        view.renderUserInfo(profession)
+    override fun onUserInfoFetch(user: User) {
+        view.showUserInfo(user)
     }
 
 }

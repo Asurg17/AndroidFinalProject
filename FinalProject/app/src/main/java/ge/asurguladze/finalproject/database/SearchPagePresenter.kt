@@ -15,11 +15,11 @@ class SearchPagePresenter(private val view: ISearchPageView): ISearchPagePresent
     }
 
 
-    override fun onAllUserInfoFetch(users: ArrayList<User>) {
+    override fun onAllUserInfoFetch(users: MutableMap<String, User>) {
         view.onAllUsersFetch(users)
     }
 
-    override fun onAllSpecificUserInfoFetch(users: ArrayList<User>) {
+    override fun onAllSpecificUserInfoFetch(users: MutableMap<String, User>) {
         view.onAllSpecificUsersFetch(users)
     }
 }

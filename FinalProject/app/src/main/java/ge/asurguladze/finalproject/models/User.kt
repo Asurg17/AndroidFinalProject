@@ -1,6 +1,7 @@
 package ge.asurguladze.finalproject.models
 
+import android.graphics.Bitmap
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
-data class User(val nickname: String? = null, val password:String? = null, val profession:String? = null)
+data class User(var nickname: String? = null, var password: String? = null, var profession: String? = null, var image: Bitmap? = null)

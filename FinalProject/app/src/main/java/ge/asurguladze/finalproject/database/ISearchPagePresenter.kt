@@ -4,8 +4,8 @@ import ge.asurguladze.finalproject.models.User
 
 interface ISearchPagePresenter {
 
-    fun onAllUserInfoFetch(users: ArrayList<User>)
+    fun onAllUserInfoFetch(users: MutableMap<String, User>)
 
-    fun onAllSpecificUserInfoFetch(users: ArrayList<User>)
+    fun onAllSpecificUserInfoFetch(users: MutableMap<String, User>)
 
 }

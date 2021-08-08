@@ -6,6 +6,4 @@ interface IMainPresenter {
 
     fun onUserInfoFetch(user: User)
 
-    fun onUserInfoChange(profession: String)
-
 }

@@ -9,7 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="100dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -27,7 +27,7 @@
                     android:id="@+id/back"
                     android:layout_width="@dimen/back_button_size"
                     android:layout_height="@dimen/back_button_size"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:background="@null"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_back"
@@ -36,15 +36,48 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <TextView
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
-                android:text="WEFWEFWEFWEFEWFWEFEWFWEFWEF"/>
+                app:layout_collapseMode="pin"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/message_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/search_view_horizontal_margin"
+        android:layout_marginBottom="@dimen/search_page_text_input_bottom_margin"
+        android:hint="@string/message_hint"
+        android:layout_gravity="bottom"
+        android:background="@drawable/rounded_border_edit_text"
+        app:hintTextColor="@color/transparent"
+        app:endIconDrawable="@drawable/ic_dot"
+        app:endIconMode="custom"
+        app:endIconTint="@color/black"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/chat_edit_text_horizontal_margin"
+            android:layout_marginBottom="@dimen/chat_edit_text_bottom_margin"
+            android:background="@color/transparent"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

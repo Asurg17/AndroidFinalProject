@@ -39,4 +39,6 @@
     <dimen name="user_text_view_left_margin">20dp</dimen>
     <dimen name="user_name_text_size">18sp</dimen>
     <dimen name="list_item_top_margin">10dp</dimen>
+    <dimen name="chat_edit_text_horizontal_margin">10dp</dimen>
+    <dimen name="chat_edit_text_bottom_margin">5dp</dimen>
 </resources>

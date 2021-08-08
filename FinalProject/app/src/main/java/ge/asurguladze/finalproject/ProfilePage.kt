@@ -1,11 +1,14 @@
 package ge.asurguladze.finalproject
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -22,13 +25,13 @@ class ProfilePage : AppCompatActivity(), IMainView {
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var profileImage: CircleImageView
     private lateinit var plusButton: FloatingActionButton
     private lateinit var homeButton: ImageButton
     private lateinit var settingsButton: ImageButton
     private lateinit var update: Button
     private lateinit var signOut: Button
 
+    private lateinit var profileImage: CircleImageView
     private lateinit var profileNickname: EditText
     private lateinit var profileProfession: EditText
 
@@ -44,10 +47,7 @@ class ProfilePage : AppCompatActivity(), IMainView {
     }
 
     private fun getValues() {
-
         presenter.getUserInfo(nickname)
-
-        Log.d("user_our_user", nickname)
     }
 
     private fun initializeViews() {
@@ -67,9 +67,22 @@ class ProfilePage : AppCompatActivity(), IMainView {
         profileProfession = findViewById(R.id.profile_profession)
     }
 
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val data: Intent? = result.data
+            val selectedImage: Uri = data?.data!!
+
+            profileImage.setImageURI(selectedImage)
+            presenter.uploadUserImage(nickname, selectedImage)
+        }
+    }
+
     private fun setListeners() {
+
         profileImage.setOnClickListener {
-            Log.d("user_our_user", "arika")
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            resultLauncher.launch(intent)
         }
 
         plusButton.setOnClickListener{
@@ -87,7 +100,6 @@ class ProfilePage : AppCompatActivity(), IMainView {
         signOut.setOnClickListener {
             signOut()
         }
-
     }
 
     private fun updateUserInfo(){
@@ -121,9 +133,11 @@ class ProfilePage : AppCompatActivity(), IMainView {
     override fun showUserInfo(user: User) {
         profileNickname.setText(user.nickname)
         profileProfession.setText(user.profession)
+
+        if (user.image != null) {
+            profileImage.setImageBitmap(user.image)
+        }
+
     }
 
-    override fun renderUserInfo(profession: String) {
-        profileProfession.setText(profession)
-    }
 }

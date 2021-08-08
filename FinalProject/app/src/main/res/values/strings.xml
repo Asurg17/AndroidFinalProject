@@ -41,4 +41,5 @@
     <string name="sign_out">SIGN OUT</string>
     <string name="back_button">Back Button</string>
     <string name="nickname_hint_short">Your Nickname</string>
+    <string name="message_hint">Message</string>
 </resources>
