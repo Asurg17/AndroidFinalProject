@@ -26,6 +26,8 @@ class UsersListAdapter(private var list: ArrayList<User>): RecyclerView.Adapter<
 
         if(item.image != null) {
             holder.userImage.setImageBitmap(item.image)
+        }else{
+            holder.userImage.setImageResource(R.drawable.avatar_image_placeholder)
         }
 
         holder.itemView.setOnClickListener {

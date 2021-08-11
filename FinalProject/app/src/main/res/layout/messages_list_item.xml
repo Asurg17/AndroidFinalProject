@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/from_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/message_time_horizontal_margin"
+        android:layout_marginTop="@dimen/message_view_top_margin"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/from_message"
+        app:layout_constraintEnd_toStartOf="@+id/from_message"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/from_message"
+        android:layout_width="@dimen/message_text_width"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/message_text_vertical_padding"
+        android:paddingHorizontal="@dimen/message_text_horizontal_padding"
+        android:layout_marginTop="@dimen/message_view_top_margin"
+        android:background="@drawable/from_message_rounded_border"
+        android:textColor="@color/white"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/to_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/message_time_horizontal_margin"
+        android:layout_marginTop="@dimen/message_view_top_margin"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/to_message"
+        app:layout_constraintStart_toEndOf="@+id/to_message"
+        app:layout_constraintTop_toBottomOf="@+id/from_message" />
+
+    <TextView
+        android:id="@+id/to_message"
+        android:layout_width="@dimen/message_text_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/to_message_rounded_border"
+        android:paddingVertical="@dimen/message_text_vertical_padding"
+        android:paddingHorizontal="@dimen/message_text_horizontal_padding"
+        android:layout_marginTop="@dimen/message_view_top_margin"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/from_message" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,21 +38,31 @@ class MainInteractor(private val presenter: IMainPresenter){
 
     private fun getUserImage(nickname: String, user: User){
 
-        val storageReference = Firebase.storage.reference
-        val imageRef = storageReference.child(nickname)
+        try {
+            val storageReference = Firebase.storage.reference
+            val imageRef = storageReference.child(nickname)
 
-        imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener {
+            imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener {
 
-            // Use the bytes to display the image
-            user.image = BitmapFactory.decodeByteArray(it, 0, it.size)
-            presenter.onUserInfoFetch(user)
+                // Use the bytes to display the image
+                user.image = BitmapFactory.decodeByteArray(it, 0, it.size)
+                presenter.onUserInfoFetch(user)
 
-        }.addOnFailureListener {
+            }.addOnFailureListener {
 
-            // Handle any errors
-            user.image = null
-            presenter.onUserInfoFetch(user)
+                // Handle any errors
+                user.image = null
+                presenter.onUserInfoFetch(user)
 
+            }
+        }
+        catch (e: ExceptionInInitializerError) {
+            // handler
+            Log.d("wefwef", "no image")
+        }
+        finally {
+            // optional finally block
+            Log.d("wefwef", "no image")
         }
 
     }
