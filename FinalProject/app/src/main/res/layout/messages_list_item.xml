@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/from_message_time"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/message_time_horizontal_margin"
-        android:layout_marginTop="@dimen/message_view_top_margin"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/from_message"
-        app:layout_constraintEnd_toStartOf="@+id/from_message"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/from_message"
-        android:layout_width="@dimen/message_text_width"
+        <TextView
+            android:id="@+id/from_message_time"
+            android:layout_width="@dimen/message_time_width"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/message_time_horizontal_margin"
+            android:layout_marginVertical="@dimen/chat_views_vertical_margin"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/from_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/from_message_rounded_border"
+            android:paddingHorizontal="@dimen/message_text_horizontal_padding"
+            android:paddingVertical="@dimen/message_text_vertical_padding"
+            android:layout_marginVertical="@dimen/chat_views_vertical_margin"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/message_text_vertical_padding"
-        android:paddingHorizontal="@dimen/message_text_horizontal_padding"
-        android:layout_marginTop="@dimen/message_view_top_margin"
-        android:background="@drawable/from_message_rounded_border"
-        android:textColor="@color/white"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/to_message_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/message_time_horizontal_margin"
-        android:layout_marginTop="@dimen/message_view_top_margin"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/to_message"
-        app:layout_constraintStart_toEndOf="@+id/to_message"
-        app:layout_constraintTop_toBottomOf="@+id/from_message" />
+        <TextView
+            android:id="@+id/to_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/to_message_rounded_border"
+            android:paddingVertical="@dimen/message_text_vertical_padding"
+            android:paddingHorizontal="@dimen/message_text_horizontal_padding"
+            android:layout_marginVertical="@dimen/chat_views_vertical_margin"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/to_message"
-        android:layout_width="@dimen/message_text_width"
-        android:layout_height="wrap_content"
-        android:background="@drawable/to_message_rounded_border"
-        android:paddingVertical="@dimen/message_text_vertical_padding"
-        android:paddingHorizontal="@dimen/message_text_horizontal_padding"
-        android:layout_marginTop="@dimen/message_view_top_margin"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_message" />
+        <TextView
+            android:id="@+id/to_message_time"
+            android:layout_width="@dimen/message_time_width"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/message_time_horizontal_margin"
+            android:layout_marginVertical="@dimen/chat_views_vertical_margin"
+            android:gravity="center" />
 
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

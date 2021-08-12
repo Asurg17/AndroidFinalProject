@@ -1,6 +1,5 @@
 package ge.asurguladze.finalproject.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,7 +88,7 @@ fun getTime(time: Long): String{
 
 }
 
-class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var fromMessageTime: TextView = itemView.findViewById(R.id.from_message_time)
     var toMessageTime: TextView = itemView.findViewById(R.id.to_message_time)
     var fromMessage: TextView = itemView.findViewById(R.id.from_message)
