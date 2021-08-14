@@ -12,10 +12,11 @@ import ge.asurguladze.finalproject.models.Message
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatListAdapter(private var messages: ArrayList<Message>): RecyclerView.Adapter<MessageViewHolder>()  {
+class ChatListAdapter(private var messages: ArrayList<Message>): RecyclerView.Adapter<MessageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.messages_list_item, parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.messages_list_item, parent, false)
         return MessageViewHolder(view)
     }
 
@@ -25,7 +26,7 @@ class ChatListAdapter(private var messages: ArrayList<Message>): RecyclerView.Ad
         val message = messages[position]
 
 
-        if(nickname == message.sender){
+        if (nickname == message.sender) {
 
             holder.toMessage.visibility = View.GONE
             holder.toMessageTime.visibility = View.GONE
@@ -35,7 +36,7 @@ class ChatListAdapter(private var messages: ArrayList<Message>): RecyclerView.Ad
             holder.fromMessage.text = message.message
             holder.fromMessageTime.text = getTime(message.time!!)
 
-        }else{
+        } else {
 
             holder.fromMessage.visibility = View.GONE
             holder.fromMessageTime.visibility = View.GONE
@@ -59,31 +60,31 @@ class ChatListAdapter(private var messages: ArrayList<Message>): RecyclerView.Ad
         return currentUser.subSequence(0, currentUser.length - 10).toString()
     }
 
-}
+    private fun getTime(time: Long): String {
 
-fun getTime(time: Long): String{
+        val formatter = SimpleDateFormat("MMM/dd/yyyy HH:mm", Locale.ENGLISH)
+        val dateString = formatter.format(Date(time))
 
-    val formatter = SimpleDateFormat("MMM/dd/yyyy HH:mm", Locale.ENGLISH)
-    val dateString = formatter.format(Date(time))
-
-    val splitDate = dateString.split(' ')
-    val firstPart = splitDate[0].split('/')
-    val month = firstPart[0]
-    val day = firstPart[1].toInt()
-    val year = firstPart[2].toInt()
+        val splitDate = dateString.split(' ')
+        val firstPart = splitDate[0].split('/')
+        val month = firstPart[0]
+        val day = firstPart[1].toInt()
+        val year = firstPart[2].toInt()
 
 
-    val currentDate = formatter.format(Date(System.currentTimeMillis()))
-    val splitCurrDate = currentDate.split(' ')
-    val currFirstPart = splitCurrDate[0].split('/')
-    val currMonth = currFirstPart[0]
-    val currDay = currFirstPart[1].toInt()
-    val currYear = currFirstPart[2].toInt()
+        val currentDate = formatter.format(Date(System.currentTimeMillis()))
+        val splitCurrDate = currentDate.split(' ')
+        val currFirstPart = splitCurrDate[0].split('/')
+        val currMonth = currFirstPart[0]
+        val currDay = currFirstPart[1].toInt()
+        val currYear = currFirstPart[2].toInt()
 
-    return if(year == currYear && month == currMonth && day == currDay){
-        splitDate[1]
-    }else{
-        "$day $month"
+        return if (year == currYear && month == currMonth && day == currDay) {
+            splitDate[1]
+        } else {
+            "$day $month"
+        }
+
     }
 
 }

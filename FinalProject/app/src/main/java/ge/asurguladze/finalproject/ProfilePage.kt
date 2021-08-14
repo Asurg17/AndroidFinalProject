@@ -8,20 +8,22 @@ import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.hdodenhof.circleimageview.CircleImageView
-import ge.asurguladze.finalproject.database.IMainView
-import ge.asurguladze.finalproject.database.MainPresenter
+import ge.asurguladze.finalproject.database.profilePage.IProfilePageView
+import ge.asurguladze.finalproject.database.profilePage.ProfilePagePresenter
 import ge.asurguladze.finalproject.models.User
 
-class ProfilePage : AppCompatActivity(), IMainView {
+class ProfilePage : AppCompatActivity(), IProfilePageView {
 
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: ProfilePagePresenter
 
     private lateinit var auth: FirebaseAuth
 
@@ -37,16 +39,20 @@ class ProfilePage : AppCompatActivity(), IMainView {
 
     private lateinit var nickname: String
 
+    private lateinit var dialog: AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_page)
 
         initializeViews()
         setListeners()
-        getValues()
     }
 
-    private fun getValues() {
+    override fun onStart() {
+        super.onStart()
+
+        dialog.show()
         presenter.getUserInfo(nickname)
     }
 
@@ -56,7 +62,7 @@ class ProfilePage : AppCompatActivity(), IMainView {
         val currentUser = auth.currentUser?.email.toString()
         nickname = currentUser.subSequence(0, currentUser.length-10).toString()
 
-        presenter = MainPresenter(this)
+        presenter = ProfilePagePresenter(this)
         profileImage = findViewById(R.id.profile_picture)
         plusButton = findViewById(R.id.plus)
         homeButton = findViewById(R.id.home)
@@ -65,6 +71,11 @@ class ProfilePage : AppCompatActivity(), IMainView {
         signOut = findViewById(R.id.sign_out)
         profileNickname = findViewById(R.id.profile_nickname)
         profileProfession = findViewById(R.id.profile_profession)
+
+        dialog = AlertDialog.Builder(this)
+            .setView(R.layout.loading_dialog_layout)
+            .setCancelable(false)
+            .create()
     }
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -138,6 +149,12 @@ class ProfilePage : AppCompatActivity(), IMainView {
             profileImage.setImageBitmap(user.image)
         }
 
+        dialog.dismiss()
+    }
+
+    override fun showError(exception: Exception) {
+        dialog.dismiss()
+        Toast.makeText(this, "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
     }
 
 }

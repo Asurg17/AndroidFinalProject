@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_page_list_item_height"
+    android:layout_marginTop="@dimen/list_item_top_margin">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/from_user_image"
+        android:layout_width="@dimen/user_image_size"
+        android:layout_height="@dimen/user_image_size"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/user_image_left_margin"
+        android:src="@drawable/avatar_image_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/from_user_nickname"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/user_text_view_size"
+        android:gravity="top"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif"
+        android:textSize="@dimen/user_name_text_size"
+        android:layout_marginStart="@dimen/user_text_view_left_margin"
+        android:paddingHorizontal="@dimen/text_view_horizontal_margin"
+        app:layout_constraintEnd_toStartOf="@+id/last_message_sent_time"
+        app:layout_constraintStart_toEndOf="@+id/from_user_image"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/last_message"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/user_image_size"
+        android:gravity="center_vertical|start"
+        android:textColor="@color/grey"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/message_text_size"
+        android:layout_marginStart="@dimen/user_text_view_left_margin"
+        android:paddingHorizontal="@dimen/text_view_horizontal_margin"
+        android:maxLines = "2"
+        android:ellipsize = "end"
+        app:layout_constraintEnd_toStartOf="@+id/last_message_sent_time"
+        app:layout_constraintStart_toEndOf="@+id/from_user_image"
+        app:layout_constraintTop_toBottomOf="@+id/from_user_nickname"/>
+
+    <TextView
+        android:id="@+id/last_message_sent_time"
+        android:layout_width="@dimen/user_image_size"
+        android:layout_height="@dimen/user_text_view_size"
+        android:gravity="center"
+        android:textSize="@dimen/last_message_sent_time_text_size"
+        android:layout_marginEnd = "@dimen/last_message_sent_time_end_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

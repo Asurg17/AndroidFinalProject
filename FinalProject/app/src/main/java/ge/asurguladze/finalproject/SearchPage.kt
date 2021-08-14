@@ -6,13 +6,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import ge.asurguladze.finalproject.adapters.UserClickListener
 import ge.asurguladze.finalproject.adapters.UsersListAdapter
-import ge.asurguladze.finalproject.database.ISearchPageView
-import ge.asurguladze.finalproject.database.SearchPagePresenter
+import ge.asurguladze.finalproject.database.searchPage.ISearchPageView
+import ge.asurguladze.finalproject.database.searchPage.SearchPagePresenter
 import ge.asurguladze.finalproject.models.User
 import java.util.*
 
@@ -28,12 +29,19 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
 
     private lateinit var allUsers: ArrayList<User>
 
+    private lateinit var dialog: AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_page)
 
         initializeViews()
         setListeners()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        searchText.setText("")
         renderUsers("")
     }
 
@@ -48,6 +56,11 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
         val adapter = UsersListAdapter(allUsers)
         adapter.userClickListener = this
         usersRv.adapter = adapter
+
+        dialog = AlertDialog.Builder(this)
+            .setView(R.layout.loading_dialog_layout)
+            .setCancelable(false)
+            .create()
     }
 
     private fun setListeners() {
@@ -85,6 +98,8 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
 
     private fun renderUsers(userName: String){
 
+        dialog.show()
+
         if(userName.length >= 3){
             presenter.getSpecificUsers(userName)
         }else{
@@ -99,6 +114,11 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
 
     override fun onAllSpecificUsersFetch(users: MutableMap<String, User>) {
         changeDataSet(users)
+    }
+
+    override fun showError(exception: Exception) {
+        dialog.dismiss()
+        Toast.makeText(this, "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
     }
 
 
@@ -118,10 +138,12 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
         }
 
         usersRv.adapter?.notifyDataSetChanged()
+
+        dialog.dismiss()
     }
 
     private fun showNoUsersWereFound(){
-        Toast.makeText(this, "Sorry, no users were found!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.search_page_no_user_found), Toast.LENGTH_SHORT).show()
     }
 
     override fun onUserClicked(user: User) {

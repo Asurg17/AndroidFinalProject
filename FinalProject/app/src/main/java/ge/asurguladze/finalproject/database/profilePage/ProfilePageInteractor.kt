@@ -1,8 +1,7 @@
-package ge.asurguladze.finalproject.database
+package ge.asurguladze.finalproject.database.profilePage
 
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -10,7 +9,7 @@ import com.google.firebase.storage.ktx.storage
 import ge.asurguladze.finalproject.models.User
 
 
-class MainInteractor(private val presenter: IMainPresenter){
+class ProfilePageInteractor(private val presenter: IProfilePagePresenter){
 
     private lateinit var database : FirebaseDatabase
 
@@ -28,41 +27,31 @@ class MainInteractor(private val presenter: IMainPresenter){
             user.password = userData[PASSWORD].toString()
             user.profession = userData[PROFESSION].toString()
 
-            getUserImage(nickname, user)
+            if(userData[IMAGE_FLAG].toString().toBoolean()){
+                getUserImage(nickname, user)
+            }else{
+                user.image = null
+                presenter.onUserInfoFetch(user)
+            }
 
         }.addOnFailureListener{
-            Log.e(TAG, "Error getting data", it)
+            presenter.onErrorDuringGettingData(it)
         }
 
     }
 
     private fun getUserImage(nickname: String, user: User){
 
-        try {
-            val storageReference = Firebase.storage.reference
-            val imageRef = storageReference.child(nickname)
+        val storageReference = Firebase.storage.reference
+        val imageRef = storageReference.child(nickname)
 
-            imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener {
+        imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener {
 
-                // Use the bytes to display the image
-                user.image = BitmapFactory.decodeByteArray(it, 0, it.size)
-                presenter.onUserInfoFetch(user)
+            user.image = BitmapFactory.decodeByteArray(it, 0, it.size)
+            presenter.onUserInfoFetch(user)
 
-            }.addOnFailureListener {
-
-                // Handle any errors
-                user.image = null
-                presenter.onUserInfoFetch(user)
-
-            }
-        }
-        catch (e: ExceptionInInitializerError) {
-            // handler
-            Log.d("wefwef", "no image")
-        }
-        finally {
-            // optional finally block
-            Log.d("wefwef", "no image")
+        }.addOnFailureListener {
+            presenter.onErrorDuringGettingData(it)
         }
 
     }
@@ -70,10 +59,10 @@ class MainInteractor(private val presenter: IMainPresenter){
 
     fun changeUserInfo(nickname: String, newNickname:String, profession: String){
         database = Firebase.database
-        val bd = database.reference
+        val db = database.reference
 
 //        bd.child(PATH).child(nickname).child(PROFESSION).setValue(profession)
-        bd.child(PATH).child(nickname).child(PROFESSION).setValue(profession)
+        db.child(PATH).child(nickname).child(PROFESSION).setValue(profession)
 
     }
 
@@ -83,22 +72,24 @@ class MainInteractor(private val presenter: IMainPresenter){
         val riversRef = storageRef.child(nickname)
         val uploadTask = riversRef.putFile(selectedImage)
 
+        database = Firebase.database
+        val db = database.reference
+
         uploadTask.addOnFailureListener {
 
-            Log.d(TAG, "Nah")
+            presenter.onErrorDuringGettingData(it)
 
         }.addOnSuccessListener {
 
-            Log.d(TAG, "Yeah")
+            db.child(PATH).child(nickname).child(IMAGE_FLAG).setValue(true)
 
         }
     }
 
 
-
     companion object{
-        const val TAG = "error"
         const val PATH = "users"
+        const val IMAGE_FLAG = "imageFlag"
         const val PROFESSION = "profession"
         const val PASSWORD = "password"
         const val NICKNAME = "nickname"

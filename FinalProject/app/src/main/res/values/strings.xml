@@ -8,28 +8,6 @@
     <string name="avatar_image">avatar_image</string>
     <string name="profession_hint_text">What I do</string>
     <string name="search_view_hint">Search</string>
-    <string name="content_desc">
-        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor !Hodor Hodor Hodor ?!
-        Hodor Hodor Hodor Hodor Hodor .
-        Hodor .Hodor Hodor Hodor Hodor .
-        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor !Hodor Hodor Hodor ?!
-        Hodor Hodor Hodor Hodor Hodor .
-        Hodor .Hodor Hodor Hodor Hodor .
-        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor !Hodor Hodor Hodor ?!
-        Hodor Hodor Hodor Hodor Hodor .
-        Hodor .Hodor Hodor Hodor Hodor .
-        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor Hodor Hodor Hodor Hodor Hodor
-        Hodor Hodor !Hodor Hodor Hodor ?!
-        Hodor Hodor Hodor Hodor Hodor .
-        Hodor .Hodor Hodor Hodor Hodor .
-        Hodor Hodor Hodor Hodor .Hodor Hodor Hodor …</string>
     <string name="todo">TODO</string>
     <string name="home">home</string>
     <string name="setting">setting</string>
@@ -42,4 +20,9 @@
     <string name="back_button">Back Button</string>
     <string name="nickname_hint_short">Your Nickname</string>
     <string name="message_hint">Message</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="main_page_no_item_fetched_text">No chats were found!</string>
+    <string name="search_page_no_user_found">Sorry, no users were found!</string>
+    <string name="not_all_fields_are_filled">Please fill in all the fields!</string>
+    <string name="no_spaces_warning">You can not use spaces in nickname!</string>
 </resources>

@@ -1,4 +1,4 @@
-package ge.asurguladze.finalproject.database
+package ge.asurguladze.finalproject.database.searchPage
 
 import ge.asurguladze.finalproject.models.User
 
@@ -21,5 +21,9 @@ class SearchPagePresenter(private val view: ISearchPageView): ISearchPagePresent
 
     override fun onAllSpecificUserInfoFetch(users: MutableMap<String, User>) {
         view.onAllSpecificUsersFetch(users)
+    }
+
+    override fun onErrorDuringGettingData(exception: Exception) {
+        view.showError(exception)
     }
 }

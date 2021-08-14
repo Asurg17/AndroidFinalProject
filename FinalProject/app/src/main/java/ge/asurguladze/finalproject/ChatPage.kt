@@ -1,10 +1,12 @@
 package ge.asurguladze.finalproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -17,9 +19,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.asurguladze.finalproject.adapters.ChatListAdapter
-import ge.asurguladze.finalproject.database.ChatPageInteractor
-import ge.asurguladze.finalproject.database.ChatPagePresenter
-import ge.asurguladze.finalproject.database.IChatPageView
+import ge.asurguladze.finalproject.database.chatPage.ChatPageInteractor
+import ge.asurguladze.finalproject.database.chatPage.ChatPagePresenter
+import ge.asurguladze.finalproject.database.chatPage.IChatPageView
 import ge.asurguladze.finalproject.models.Message
 import ge.asurguladze.finalproject.models.User
 
@@ -43,20 +45,37 @@ class ChatPage : AppCompatActivity(), IChatPageView {
 
     private var checker: Boolean = false
 
+    private lateinit var dialog: AlertDialog
+
+    private lateinit var eventListener: ChildEventListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_page)
 
         initializeViews()
         setListeners()
+    }
 
-        presenter.getAllMessages(fromUserNickname, toUserNickname)
-        presenter.getUserData(toUserNickname)
+    override fun onStart() {
+        super.onStart()
+
+        dialog.show()
+        presenter.getAllData(fromUserNickname, toUserNickname)
+    }
+
+    override fun onDestroy() {
+
+        Firebase.database
+            .getReference(ChatPageInteractor.MESSAGE_TAG)
+            .child(fromUserNickname)
+            .child("$fromUserNickname:$toUserNickname")
+            .removeEventListener(eventListener)
+
+        super.onDestroy()
     }
 
     private fun initializeViews() {
-
-        presenter = ChatPagePresenter(this)
 
         back = findViewById(R.id.back)
         userNickname = findViewById(R.id.user_nickname)
@@ -75,12 +94,19 @@ class ChatPage : AppCompatActivity(), IChatPageView {
         val adapter = ChatListAdapter(messages)
         messagesRv.adapter = adapter
 
+        presenter = ChatPagePresenter(this)
+
+        dialog = AlertDialog.Builder(this)
+            .setView(R.layout.loading_dialog_layout)
+            .setCancelable(false)
+            .create()
     }
 
     private fun setListeners() {
 
         back.setOnClickListener {
-            finish()
+            val intent = Intent(this, MainPage::class.java)
+            startActivity(intent)
         }
 
         textInputLayout.setEndIconOnClickListener{
@@ -94,38 +120,61 @@ class ChatPage : AppCompatActivity(), IChatPageView {
             presenter.addNewMessage(curMessage, fromUserNickname, toUserNickname)
         }
 
-        Firebase.database
+        val query = Firebase.database
                 .getReference(ChatPageInteractor.MESSAGE_TAG)
                 .child(fromUserNickname)
                 .child("$fromUserNickname:$toUserNickname")
-                .addChildEventListener(object: ChildEventListener{
-                    override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                        val value = snapshot.value as HashMap<*, *>
 
-                        if(value[ChatPageInteractor.SENDER].toString() != fromUserNickname && checker){
+        eventListener  = query.addChildEventListener(object: ChildEventListener{
+                            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                                val value = snapshot.value as HashMap<*, *>
 
-                            messages.add(Message(value[ChatPageInteractor.SENDER].toString(),
-                                                 value[ChatPageInteractor.MESSAGE].toString(),
-                                                 value[ChatPageInteractor.TIME].toString().toLong()))
+                                if(value[ChatPageInteractor.SENDER].toString() != fromUserNickname && checker){
 
-                            messagesRv.adapter?.notifyItemInserted(messages.size)
-                            scrollDown()
-                        }
-                    }
+                                    messages.add(Message(value[ChatPageInteractor.SENDER].toString(),
+                                                         value[ChatPageInteractor.MESSAGE].toString(),
+                                                         value[ChatPageInteractor.TIME].toString().toLong()))
 
-                    override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-                    override fun onChildRemoved(snapshot: DataSnapshot) {}
-                    override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                                    messagesRv.adapter?.notifyItemInserted(messages.size)
+                                    scrollDown()
+                                }
+                            }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(this@ChatPage, error.message, Toast.LENGTH_SHORT).show()
-                    }
-                })
+                            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                            override fun onChildRemoved(snapshot: DataSnapshot) {}
+                            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(this@ChatPage, error.message, Toast.LENGTH_SHORT).show()
+                            }
+                        })
     }
 
 
     // IChatPageView functions
-    override fun addMessagesToList(allMessages: ArrayList<Message>) {
+    override fun showAllData(messages: ArrayList<Message>, user: User) {
+        showUserInfo(user)
+        addMessagesToList(messages)
+        dialog.dismiss()
+    }
+
+    override fun showError(exception: Exception) {
+        dialog.dismiss()
+        Toast.makeText(this, "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
+    }
+
+
+    // Help functions
+    private fun showUserInfo(user: User) {
+        userNickname.text = user.nickname
+        userProfession.text = user.profession
+
+        if (user.image != null) {
+            userImage.setImageBitmap(user.image)
+        }
+    }
+
+    private fun addMessagesToList(allMessages: ArrayList<Message>) {
         messages.removeAll(messages)
 
         for(message in allMessages){
@@ -138,17 +187,7 @@ class ChatPage : AppCompatActivity(), IChatPageView {
         checker = true // all messages were rendered
     }
 
-    override fun showUserInfo(user: User) {
-        userNickname.text = user.nickname
-        userProfession.text = user.profession
 
-        if (user.image != null) {
-            userImage.setImageBitmap(user.image)
-        }
-    }
-
-
-    // Help functions
     private fun scrollDown(){
         messagesRv.scrollToPosition(messages.size - 1)
     }

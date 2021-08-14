@@ -1,7 +1,6 @@
-package ge.asurguladze.finalproject.database
+package ge.asurguladze.finalproject.database.chatPage
 
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -28,7 +27,7 @@ class ChatPageInteractor(private val presenter: IChatPagePresenter) {
 
     }
 
-    fun getAllMessages(fromUserNickname: String, toUserNickname: String){
+    fun getAllData(fromUserNickname: String, toUserNickname: String){
         database = Firebase.database
         val messages =  database.getReference(MESSAGE_TAG)
 
@@ -54,15 +53,15 @@ class ChatPageInteractor(private val presenter: IChatPagePresenter) {
                 }
             }
 
-            sortList(result)
+            getUserData(toUserNickname, ArrayList(result.sortedWith(compareBy { subIt -> subIt.time })))
 
         }.addOnFailureListener{
-            Log.e(ERROR_TAG, "Error getting data", it)
+            presenter.onErrorDuringGettingData(it)
         }
 
     }
 
-    fun getUserData(nickname: String){
+    private fun getUserData(nickname: String, messages: ArrayList<Message>){
         database = Firebase.database
         val bd = database.reference
         val user = User()
@@ -75,45 +74,42 @@ class ChatPageInteractor(private val presenter: IChatPagePresenter) {
             user.password = userData[PASSWORD].toString()
             user.profession = userData[PROFESSION].toString()
 
-            getUserImage(nickname, user)
+
+            if(userData[IMAGE_FLAG].toString().toBoolean()) {
+                getUserImage(nickname, user, messages)
+            }else{
+                user.image = null
+                presenter.onAllDataFetch(messages, user)
+            }
 
         }.addOnFailureListener{
-            Log.e(ERROR_TAG, "Error getting data", it)
+            presenter.onErrorDuringGettingData(it)
         }
     }
 
-    private fun getUserImage(nickname: String, user: User) {
+    private fun getUserImage(nickname: String, user: User, messages: ArrayList<Message>) {
 
         val storageReference = Firebase.storage.reference
         val imageRef = storageReference.child(nickname)
 
         imageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener {
 
-            // Use the bytes to display the image
             user.image = BitmapFactory.decodeByteArray(it, 0, it.size)
-            presenter.onUserInfoFetch(user)
+            presenter.onAllDataFetch(messages, user)
 
         }.addOnFailureListener {
-
-            // Handle any errors
-            user.image = null
-            presenter.onUserInfoFetch(user)
-
+            presenter.onErrorDuringGettingData(it)
         }
 
-    }
-
-    private fun sortList(list: ArrayList<Message>) {
-        presenter.onAllMessagesFetch(ArrayList(list.sortedWith(compareBy { it.time })))
     }
 
     companion object{
         const val USER_TAG = "users"
         const val MESSAGE_TAG = "messages"
-        const val ERROR_TAG = "error"
         const val MESSAGE = "message"
         const val SENDER = "sender"
         const val TIME = "time"
+        const val IMAGE_FLAG = "imageFlag"
         const val PROFESSION = "profession"
         const val PASSWORD = "password"
         const val NICKNAME = "nickname"

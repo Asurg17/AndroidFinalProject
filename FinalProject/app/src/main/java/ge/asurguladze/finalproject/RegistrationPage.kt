@@ -3,10 +3,10 @@ package ge.asurguladze.finalproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +24,8 @@ class RegistrationPage : AppCompatActivity() {
 
     private lateinit var database : FirebaseDatabase
     private lateinit var auth: FirebaseAuth
+
+    private lateinit var dialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,12 @@ class RegistrationPage : AppCompatActivity() {
         profession = findViewById(R.id.profession)
 
         database = Firebase.database
+
+        dialog = AlertDialog.Builder(this)
+            .setView(R.layout.loading_dialog_layout)
+            .setCancelable(false)
+            .create()
+
     }
 
     private fun setListeners() {
@@ -58,14 +66,14 @@ class RegistrationPage : AppCompatActivity() {
         if (checkIfAllValuesAreFilled()) {
 
             if(nickname.text.toString().contains(" ")){
-                showToast("You can't use spaces in nickname!")
+                showToast(getString(R.string.no_spaces_warning))
             }else{
                 createUser(nickname.text.toString(), password.text.toString(), profession.text.toString())
             }
 
         }else{
 
-            showToast("Please fill in all the fields")
+            showToast(getString(R.string.not_all_fields_are_filled))
 
         }
 
@@ -73,29 +81,25 @@ class RegistrationPage : AppCompatActivity() {
 
     private fun createUser(nickname:String, password:String, profession:String) {
 
+        dialog.show()
+
         val users =  database.getReference("users")
 
         auth.createUserWithEmailAndPassword("$nickname@gmail.com", password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("B:A", "createUserWithEmail:success")
-
                     users.push().key?.let{
                         users.child(nickname).setValue(
-                            User(nickname, password, profession)
+                            User(nickname, password, profession, null, false)
                         )
                     }
 
+                    dialog.dismiss()
                     goToMainPage()
 
                 } else {
-
-                    // If sign in fails, display a message to the user.
-                    Log.w("B:A", "createUserWithEmail:failure", task.exception)
                     showToast("Authentication failed: " + task.exception?.message)
-
                 }
             }
     }
@@ -116,6 +120,7 @@ class RegistrationPage : AppCompatActivity() {
     }
 
     private fun showToast(text: String){
+        dialog.dismiss()
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 

@@ -38,7 +38,7 @@
     <dimen name="user_image_left_margin">30dp</dimen>
     <dimen name="user_text_view_left_margin">20dp</dimen>
     <dimen name="user_name_text_size">18sp</dimen>
-    <dimen name="list_item_top_margin">10dp</dimen>
+    <dimen name="list_item_top_margin">20dp</dimen>
     <dimen name="chat_edit_text_horizontal_margin">10dp</dimen>
     <dimen name="chat_edit_text_bottom_margin">5dp</dimen>
     <dimen name="message_time_horizontal_margin">20dp</dimen>
@@ -60,4 +60,13 @@
     <dimen name="chat_item_linear_layout_vertical_padding">10dp</dimen>
     <dimen name="message_time_width">70dp</dimen>
     <dimen name="chat_views_vertical_margin">10dp</dimen>
+    <dimen name="text_view_horizontal_margin">10dp</dimen>
+    <dimen name="message_text_size">14sp</dimen>
+    <dimen name="main_page_list_item_height">120dp</dimen>
+    <dimen name="main_page_rv_top_padding">30dp</dimen>
+    <dimen name="last_message_sent_time_end_margin">30dp</dimen>
+    <dimen name="last_message_sent_time_text_size">14sp</dimen>
+    <dimen name="loading_text_view_bottom_margin">16dp</dimen>
+    <dimen name="loading_text_view_text_size">18sp</dimen>
+    <dimen name="loading_dialog_layout_padding">50dp</dimen>
 </resources>

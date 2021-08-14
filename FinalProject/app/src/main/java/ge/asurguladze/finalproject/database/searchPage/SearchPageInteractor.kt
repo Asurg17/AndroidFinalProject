@@ -1,7 +1,6 @@
-package ge.asurguladze.finalproject.database
+package ge.asurguladze.finalproject.database.searchPage
 
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -46,7 +45,7 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
             getImages(users, true)
 
         }.addOnFailureListener{
-            Log.e(TAG, "Error getting data", it)
+            presenter.onErrorDuringGettingData(it)
         }
 
     }
@@ -83,7 +82,7 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
             getImages(users, false)
 
         }.addOnFailureListener{
-            Log.e(TAG, "Error getting data", it)
+            presenter.onErrorDuringGettingData(it)
         }
 
     }
@@ -118,13 +117,12 @@ class SearchPageInteractor(private val presenter: ISearchPagePresenter) {
                 }
             }
             .addOnFailureListener {
-                Log.d(TAG, "Error getting images")
+                presenter.onErrorDuringGettingData(it)
             }
 
     }
 
     companion object{
-        const val TAG = "error"
         const val PATH = "users"
         const val PROFESSION = "profession"
         const val PASSWORD = "password"

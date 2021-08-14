@@ -1,11 +1,11 @@
-package ge.asurguladze.finalproject.database
+package ge.asurguladze.finalproject.database.profilePage
 
 import android.net.Uri
 import ge.asurguladze.finalproject.models.User
 
-class MainPresenter(private val view: IMainView) : IMainPresenter{
+class ProfilePagePresenter(private val view: IProfilePageView) : IProfilePagePresenter {
 
-    private val interactor = MainInteractor(this)
+    private val interactor = ProfilePageInteractor(this)
 
     fun getUserInfo(nickname: String){
         interactor.getUserInfo(nickname)
@@ -21,6 +21,10 @@ class MainPresenter(private val view: IMainView) : IMainPresenter{
 
     override fun onUserInfoFetch(user: User) {
         view.showUserInfo(user)
+    }
+
+    override fun onErrorDuringGettingData(exception: Exception) {
+        view.showError(exception)
     }
 
 }

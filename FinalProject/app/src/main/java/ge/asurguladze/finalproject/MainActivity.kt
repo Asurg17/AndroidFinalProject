@@ -2,10 +2,10 @@ package ge.asurguladze.finalproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var password: EditText
 
     private lateinit var auth: FirebaseAuth
+
+    private lateinit var dialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,11 @@ class MainActivity : AppCompatActivity() {
 
         nickname = findViewById(R.id.nickname)
         password = findViewById(R.id.password)
+
+        dialog = AlertDialog.Builder(this)
+            .setView(R.layout.loading_dialog_layout)
+            .setCancelable(false)
+            .create()
     }
 
     private fun setListeners() {
@@ -63,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
             }else{
 
-                showToast("Please fill in all the fields")
+                showToast(getString(R.string.not_all_fields_are_filled))
 
             }
 
@@ -76,26 +83,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun signIn(nickname:String, password:String){
 
+        dialog.show()
+
         auth.signInWithEmailAndPassword("$nickname@gmail.com", password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
-
+                    dialog.dismiss()
                     goToMainPage()
 
-//                    updateUI(user)
-
                 } else {
-
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
                     showToast("Authentication failed: " + task.exception?.message)
-
-//                    updateUI(null)
-
                 }
             }
     }
@@ -121,11 +119,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showToast(text: String){
+        dialog.dismiss()
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-    }
-
-    companion object{
-        var TAG = "TAG"
     }
 
 }
