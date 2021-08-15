@@ -23,6 +23,7 @@
     <string name="please_wait">Please wait…</string>
     <string name="main_page_no_item_fetched_text">No chats were found!</string>
     <string name="search_page_no_user_found">Sorry, no users were found!</string>
+    <string name="no_uppercase_letters_allowed">You can not use uppercase letters in nickname!</string>
     <string name="not_all_fields_are_filled">Please fill in all the fields!</string>
     <string name="no_spaces_warning">You can not use spaces in nickname!</string>
 </resources>

@@ -68,7 +68,16 @@ class RegistrationPage : AppCompatActivity() {
             if(nickname.text.toString().contains(" ")){
                 showToast(getString(R.string.no_spaces_warning))
             }else{
-                createUser(nickname.text.toString(), password.text.toString(), profession.text.toString())
+
+                if(checkForUppercase(nickname.text.toString())) {
+                    showToast(getString(R.string.no_uppercase_letters_allowed))
+                }else{
+                    createUser(
+                        nickname.text.toString(),
+                        password.text.toString(),
+                        profession.text.toString()
+                    )
+                }
             }
 
         }else{
@@ -77,6 +86,17 @@ class RegistrationPage : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun checkForUppercase(nickname: String): Boolean {
+
+        for(char in nickname){
+            if(char.isUpperCase()){
+                return true
+            }
+        }
+
+        return false
     }
 
     private fun createUser(nickname:String, password:String, profession:String) {
@@ -105,7 +125,7 @@ class RegistrationPage : AppCompatActivity() {
     }
 
     private fun goToMainPage(){
-        val intent = Intent(this, MainPage::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 

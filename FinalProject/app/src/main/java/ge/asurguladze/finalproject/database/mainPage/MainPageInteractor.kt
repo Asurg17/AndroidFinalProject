@@ -125,7 +125,7 @@ class MainPageInteractor(private val presenter: IMainPagePresenter) {
 
     }
 
-    fun getSpecificItems(userName: String, listItems: ArrayList<FullData>) {
+    private fun getSpecificItems(userName: String, listItems: ArrayList<FullData>) {
 
         val arr = arrayListOf<FullData>()
 

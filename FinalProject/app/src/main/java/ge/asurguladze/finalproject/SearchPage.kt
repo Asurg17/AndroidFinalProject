@@ -92,7 +92,7 @@ class SearchPage : AppCompatActivity(), ISearchPageView, UserClickListener {
     }
 
     private fun goToMainPage(){
-        val intent = Intent(this, MainPage::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 

@@ -69,4 +69,5 @@
     <dimen name="loading_text_view_bottom_margin">16dp</dimen>
     <dimen name="loading_text_view_text_size">18sp</dimen>
     <dimen name="loading_dialog_layout_padding">50dp</dimen>
+    <dimen name="update_button_top_margin">180dp</dimen>
 </resources>

@@ -1,35 +1,36 @@
-package ge.asurguladze.finalproject
+package ge.asurguladze.finalproject.fragments
 
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import de.hdodenhof.circleimageview.CircleImageView
+import ge.asurguladze.finalproject.AuthorizationPage
+import ge.asurguladze.finalproject.MainActivity
+import ge.asurguladze.finalproject.R
 import ge.asurguladze.finalproject.database.profilePage.IProfilePageView
 import ge.asurguladze.finalproject.database.profilePage.ProfilePagePresenter
 import ge.asurguladze.finalproject.models.User
 
-class ProfilePage : AppCompatActivity(), IProfilePageView {
+class ProfilePageFragment : Fragment(), IProfilePageView {
 
     private lateinit var presenter: ProfilePagePresenter
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var plusButton: FloatingActionButton
-    private lateinit var homeButton: ImageButton
-    private lateinit var settingsButton: ImageButton
     private lateinit var update: Button
     private lateinit var signOut: Button
 
@@ -41,9 +42,19 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
 
     private lateinit var dialog: AlertDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_page)
+    private lateinit var curView: View
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        curView = inflater.inflate(R.layout.fragment_profile_page, container, false)
+        return curView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initializeViews()
         setListeners()
@@ -56,6 +67,12 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
         presenter.getUserInfo(nickname)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        (activity as MainActivity).showBottomAppBar()
+    }
+
     private fun initializeViews() {
 
         auth = Firebase.auth
@@ -63,16 +80,13 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
         nickname = currentUser.subSequence(0, currentUser.length-10).toString()
 
         presenter = ProfilePagePresenter(this)
-        profileImage = findViewById(R.id.profile_picture)
-        plusButton = findViewById(R.id.plus)
-        homeButton = findViewById(R.id.home)
-        settingsButton = findViewById(R.id.settings)
-        update = findViewById(R.id.update)
-        signOut = findViewById(R.id.sign_out)
-        profileNickname = findViewById(R.id.profile_nickname)
-        profileProfession = findViewById(R.id.profile_profession)
+        profileImage = curView.findViewById(R.id.profile_picture)
+        update = curView.findViewById(R.id.update)
+        signOut = curView.findViewById(R.id.sign_out)
+        profileNickname = curView.findViewById(R.id.profile_nickname)
+        profileProfession = curView.findViewById(R.id.profile_profession)
 
-        dialog = AlertDialog.Builder(this)
+        dialog = AlertDialog.Builder(requireContext())
             .setView(R.layout.loading_dialog_layout)
             .setCancelable(false)
             .create()
@@ -96,14 +110,6 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
             resultLauncher.launch(intent)
         }
 
-        plusButton.setOnClickListener{
-            goToSearchPage()
-        }
-
-        homeButton.setOnClickListener {
-            goToMainPage()
-        }
-
         update.setOnClickListener {
             updateUserInfo()
         }
@@ -125,17 +131,7 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
     }
 
     private fun goToStartPage(){
-        val intent = Intent(this, AuthorizationPage::class.java)
-        startActivity(intent)
-    }
-
-    private fun goToMainPage(){
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun goToSearchPage(){
-        val intent = Intent(this, SearchPage::class.java)
+        val intent = Intent(requireContext(), AuthorizationPage::class.java)
         startActivity(intent)
     }
 
@@ -154,7 +150,7 @@ class ProfilePage : AppCompatActivity(), IProfilePageView {
 
     override fun showError(exception: Exception) {
         dialog.dismiss()
-        Toast.makeText(this, "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
     }
 
 }

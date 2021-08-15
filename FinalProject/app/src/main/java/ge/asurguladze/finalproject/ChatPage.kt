@@ -105,7 +105,7 @@ class ChatPage : AppCompatActivity(), IChatPageView {
     private fun setListeners() {
 
         back.setOnClickListener {
-            val intent = Intent(this, MainPage::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 

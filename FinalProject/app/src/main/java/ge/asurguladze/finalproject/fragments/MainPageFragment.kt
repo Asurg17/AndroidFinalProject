@@ -1,19 +1,24 @@
-package ge.asurguladze.finalproject
+package ge.asurguladze.finalproject.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.ImageButton
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import ge.asurguladze.finalproject.ChatPage
+import ge.asurguladze.finalproject.MainActivity
+import ge.asurguladze.finalproject.R
+import ge.asurguladze.finalproject.SearchPage
 import ge.asurguladze.finalproject.adapters.MainPageItemClickedListener
 import ge.asurguladze.finalproject.adapters.MainPageListAdapter
 import ge.asurguladze.finalproject.database.mainPage.IMainPageView
@@ -21,12 +26,12 @@ import ge.asurguladze.finalproject.database.mainPage.MainPagePresenter
 import ge.asurguladze.finalproject.models.FullData
 import java.util.*
 
-class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView {
+
+class MainPageFragment : Fragment(), MainPageItemClickedListener, IMainPageView {
+
+    private lateinit var curView: View
 
     private lateinit var search: TextInputEditText
-    private lateinit var plusButton: FloatingActionButton
-    private lateinit var homeButton: ImageButton
-    private lateinit var settingsButton: ImageButton
     private lateinit var chatFriendsListRv: RecyclerView
 
     private lateinit var listItems: ArrayList<FullData>
@@ -37,12 +42,27 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
 
     private lateinit var dialog: AlertDialog
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_page)
+    private lateinit var  act: MainActivity
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+
+        act = activity as MainActivity
+
+        curView = inflater.inflate(R.layout.fragment_main_page, container, false)
+        return curView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initializeViews()
         setListeners()
+
     }
 
     override fun onStart() {
@@ -52,11 +72,8 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
     }
 
     private fun initializeViews() {
-        search = findViewById(R.id.search)
-        plusButton = findViewById(R.id.plus)
-        homeButton = findViewById(R.id.home)
-        settingsButton = findViewById(R.id.settings)
-        chatFriendsListRv = findViewById(R.id.chat_friends_list)
+        search = curView.findViewById(R.id.search)
+        chatFriendsListRv = curView.findViewById(R.id.chat_friends_list)
 
         listItems = arrayListOf()
         val adapter = MainPageListAdapter(listItems)
@@ -65,21 +82,14 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
 
         presenter = MainPagePresenter(this)
 
-        dialog = AlertDialog.Builder(this)
+        dialog = AlertDialog.Builder(requireContext())
             .setView(R.layout.loading_dialog_layout)
             .setCancelable(false)
             .create()
+
     }
 
     private fun setListeners() {
-
-        plusButton.setOnClickListener{
-            goToSearchPage()
-        }
-
-        settingsButton.setOnClickListener {
-            goToProfilePage()
-        }
 
         var timer: Timer? = Timer()
 
@@ -94,12 +104,26 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
                 timer = Timer()
                 timer!!.schedule(object : TimerTask() {
                     override fun run() {
-                        runOnUiThread {
+                        activity?.runOnUiThread {
                             renderUsers(search.text.toString())
                         }
                     }
                 }, 500)
             }
+        })
+
+        chatFriendsListRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    (activity as MainActivity).hideBottomAppBar()
+                } else if (dy < 0) {
+                    (activity as MainActivity).showBottomAppBar()
+                }
+            }
+
         })
 
     }
@@ -115,16 +139,6 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
         }
     }
 
-    private fun goToProfilePage(){
-        val intent = Intent(this, ProfilePage::class.java)
-        startActivity(intent)
-    }
-
-    private fun goToSearchPage(){
-        val intent = Intent(this, SearchPage::class.java)
-        startActivity(intent)
-    }
-
 
     private fun getNickname(): String{
         auth = Firebase.auth
@@ -133,7 +147,7 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
     }
 
     private fun showToast(text: String){
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
 //    Override functions
@@ -157,11 +171,11 @@ class MainPage : AppCompatActivity(), MainPageItemClickedListener, IMainPageView
 
     override fun showError(exception: Exception) {
         dialog.dismiss()
-        Toast.makeText(this, "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Error getting data" + exception.message, Toast.LENGTH_LONG).show()
     }
 
     override fun onItemClicked(item: FullData) {
-        val intent = Intent(this, ChatPage::class.java)
+        val intent = Intent(requireContext(), ChatPage::class.java)
         intent.putExtra(SearchPage.TAG, item.nickname)
         startActivity(intent)
     }

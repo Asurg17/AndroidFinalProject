@@ -14,10 +14,10 @@
         <activity android:name=".ChatPage"/>
         <activity android:name=".SearchPage" />
         <activity android:name=".ProfilePage" />
-        <activity android:name=".MainPage"
-                  android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".AuthorizationPage" />
         <activity android:name=".RegistrationPage" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

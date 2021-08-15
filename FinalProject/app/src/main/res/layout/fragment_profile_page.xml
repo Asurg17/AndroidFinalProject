@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.ProfilePageFragment">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_picture"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/profile_image_size"
+        android:layout_height="@dimen/profile_image_size"
+        android:layout_marginBottom="@dimen/profile_picture_bottom_margin"
+        android:src="@drawable/avatar_image_placeholder"/>
+
+    <EditText
+        android:id="@+id/profile_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_page_edit_text_height"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/profile_page_edit_text_vertical_margin"
+        android:layout_marginHorizontal="@dimen/profile_page_edit_text_horizontal_margin"
+        android:background="@drawable/rounded_border_edit_text"
+        android:autofillHints="username"
+        android:inputType="none"
+        android:enabled="false"
+        android:textColor="@color/black"
+        android:hint="@string/nickname_hint_short"/>
+
+    <EditText
+        android:id="@+id/profile_profession"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_page_edit_text_height"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/profile_page_edit_text_vertical_margin"
+        android:layout_marginHorizontal="@dimen/profile_page_edit_text_horizontal_margin"
+        android:background="@drawable/rounded_border_edit_text"
+        android:autofillHints="profession"
+        android:inputType="text"
+        android:hint="@string/profession_hint_text"/>
+
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="@dimen/profile_button_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/update_button_top_margin"
+        android:text="@string/update"
+        android:backgroundTint="@color/blue"
+        android:textSize="@dimen/text_size"
+        android:fontFamily="sans-serif" />
+
+    <Button
+        android:id="@+id/sign_out"
+        android:layout_width="@dimen/profile_button_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:text="@string/sign_out"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/grey"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center"
+        app:strokeWidth="@dimen/stroke_width"
+        app:strokeColor="@color/grey"
+        style="?attr/materialButtonOutlinedStyle"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

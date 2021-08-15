@@ -10,10 +10,6 @@ class MainPagePresenter(private val view: IMainPageView): IMainPagePresenter {
         interactor.getAllItems(nickname, userName)
     }
 
-    fun getSpecificItems(userName: String, listItems: ArrayList<FullData>) {
-        interactor.getSpecificItems(userName, listItems)
-    }
-
     override fun onAllItemsFetch(items: ArrayList<FullData>) {
         view.renderAllFetchedItems(items)
     }

@@ -1,6 +1,5 @@
 package ge.asurguladze.finalproject.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,14 +65,18 @@ class MainPageListAdapter(private var items: ArrayList<FullData>): RecyclerView.
 
         return when {
             minutes < 60 -> { // if less than hour
-                "$minutes min"
+                if(minutes == 0L){
+                    "now"
+                }else{
+                    "$minutes min"
+                }
             }
             hours < 24 -> {
                 "$hours hour"
             }
             else -> {
 
-                val formatter = SimpleDateFormat("dd/MMM", Locale.ENGLISH)
+                val formatter = SimpleDateFormat("dd MMM", Locale.ENGLISH)
                 formatter.format(Date(time))
             }
         }
