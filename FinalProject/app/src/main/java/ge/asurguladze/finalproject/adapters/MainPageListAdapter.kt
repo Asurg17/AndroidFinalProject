@@ -1,5 +1,6 @@
 package ge.asurguladze.finalproject.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import ge.asurguladze.finalproject.R
 import ge.asurguladze.finalproject.models.FullData
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainPageListAdapter(private var items: ArrayList<FullData>): RecyclerView.Adapter<CharFriendsListItemHolder>() {
 
@@ -57,43 +59,25 @@ class MainPageListAdapter(private var items: ArrayList<FullData>): RecyclerView.
 
 
     private fun getTime(time: Long): String{
-        val formatter = SimpleDateFormat("MMM/dd/yyyy HH:mm", Locale.ENGLISH)
-        val dateString = formatter.format(Date(time))
 
-        val splitDate = dateString.split(' ')
-        val firstPart = splitDate[0].split('/')
-        val month = firstPart[0]
-        val day = firstPart[1].toInt()
-        val year = firstPart[2].toInt()
+        val difference = System.currentTimeMillis() - time
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(difference)
+        val hours = TimeUnit.MILLISECONDS.toHours(difference)
 
-
-        val currentDate = formatter.format(Date(System.currentTimeMillis()))
-        val splitCurrDate = currentDate.split(' ')
-
-        val currDate = splitCurrDate[0].split('/')
-        val currMonth = currDate[0]
-        val currDay = currDate[1].toInt()
-        val currYear = currDate[2].toInt()
-
-        return if(year == currYear && month == currMonth && day == currDay){
-
-            val currTime = splitCurrDate[1].split(':')
-            val currHour = currTime[0].toInt()
-            val currMin = currTime[1].toInt()
-
-            val timeArr = splitDate[1].split(':')
-            val hour = timeArr[0].toInt()
-            val min = timeArr[1].toInt()
-
-            return if(hour == currHour){
-                (currMin - min).toString() + "min"
-            }else{
-                (currHour - hour).toString() + "hour"
+        return when {
+            minutes < 60 -> { // if less than hour
+                "$minutes min"
             }
+            hours < 24 -> {
+                "$hours hour"
+            }
+            else -> {
 
-        }else{
-            "$day $month"
+                val formatter = SimpleDateFormat("dd/MMM", Locale.ENGLISH)
+                formatter.format(Date(time))
+            }
         }
+
     }
 
 }
